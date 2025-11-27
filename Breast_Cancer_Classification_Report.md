@@ -871,11 +871,14 @@ class DiagnosisResponse(BaseModel):
     explanation: dict  # SHAP-based
     model_version: str
 
+# Initialize on startup
+model = mlflow.sklearn.load_model("models:/breast_cancer_classifier/Production")
+explainer = shap.TreeExplainer(model)
+feature_names = joblib.load("models/selected_features.pkl")
+
 @app.post("/predict", response_model=DiagnosisResponse)
 async def predict(features: list[float]):
     """EU AI Act Article 13 compliant inference with explainability."""
-    # Load model and generate prediction with SHAP explanation
-    model = mlflow.sklearn.load_model("models:/breast_cancer_classifier/Production")
     prediction = model.predict([features])[0]
     shap_values = explainer.shap_values([features])
     

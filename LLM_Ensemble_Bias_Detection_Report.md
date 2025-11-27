@@ -771,9 +771,11 @@ with mlflow.start_run(run_name="ensemble_v3"):
 ### 12.3 Robust API Handling
 
 ```python
+import asyncio
 from tenacity import retry, stop_after_attempt, wait_exponential
 from circuitbreaker import circuit
 import structlog
+import mlflow
 
 logger = structlog.get_logger()
 
