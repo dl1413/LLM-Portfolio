@@ -115,14 +115,17 @@ All reports follow publication-ready academic standards:
 
 ---
 
-## Suitable Publications
+## Suitable Use Cases
 
-These reports are designed to be suitable for:
+These reports are designed and formatted to be suitable for:
 
-- **Academic Conferences:** NeurIPS, ICML, AAAI, ML4H
-- **Journals:** JMLR, JAMA Network Open, npj Digital Medicine
-- **Industry:** White papers, technical blog posts
-- **Academic:** Graduate thesis chapters
+- **Graduate Coursework:** MS/PhD thesis chapters, course projects
+- **Portfolio Demonstrations:** Technical interviews, job applications
+- **Technical Documentation:** Internal documentation, methodology references
+- **Workshop Submissions:** Applied workshops at academic venues
+- **Industry Applications:** White papers, technical blog posts
+
+*Note: While these reports follow academic formatting standards, submission to top-tier venues (NeurIPS, ICML, JMLR) would require novel contributions validated on non-benchmark/real-world data with peer review.*
 
 ---
 

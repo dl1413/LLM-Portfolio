@@ -20,7 +20,9 @@
 
 ## Abstract
 
-Textbook bias represents a significant concern in educational equity, yet systematic assessment remains challenging due to the subjective nature of bias evaluation and the scale of educational materials. This study introduces a novel framework combining Large Language Model (LLM) ensemble methods with Bayesian hierarchical modeling to detect and quantify bias in educational textbooks. We deployed three frontier LLMs—GPT-4, Claude-3-Opus, and Llama-3-70B—to independently rate 4,500 passages from 150 textbooks across 5 publishers, generating 67,500 total bias ratings on a standardized 1-5 scale. Inter-rater reliability analysis yielded Krippendorff's α = 0.84, indicating excellent agreement among models. A Bayesian hierarchical model with publisher and textbook random effects was specified in PyMC to estimate publisher-level bias distributions with full uncertainty quantification. Statistical hypothesis testing using Friedman and Wilcoxon signed-rank tests confirmed significant differences between publishers (p < 0.001). Posterior distributions revealed credible intervals enabling nuanced comparison across publishers. This framework demonstrates that LLM ensembles can provide reliable, scalable bias assessment with rigorous statistical foundations, offering applications beyond textbooks to news media, social platforms, and policy documents.
+Textbook bias represents a significant concern in educational equity, yet systematic assessment remains challenging due to the subjective nature of bias evaluation and the scale of educational materials. This study introduces a novel framework combining Large Language Model (LLM) ensemble methods with Bayesian hierarchical modeling to detect and quantify bias in educational textbooks. Using a simulated demonstration dataset, we deployed three frontier LLMs—GPT-4, Claude-3-Opus, and Llama-3-70B—to independently rate 4,500 passages from 150 textbooks across 5 publishers, generating 67,500 total bias ratings on a standardized 1-5 scale. Inter-rater reliability analysis yielded Krippendorff's α = 0.84, indicating excellent agreement among models. A Bayesian hierarchical model with publisher and textbook random effects was specified in PyMC to estimate publisher-level bias distributions with full uncertainty quantification. Statistical hypothesis testing using Friedman and Wilcoxon signed-rank tests confirmed significant differences between publishers (p < 0.001). This framework demonstrates that LLM ensembles can provide reliable, scalable bias assessment with rigorous statistical foundations, offering applications beyond textbooks to news media, social platforms, and policy documents.
+
+> **Note:** This report documents a portfolio demonstration project using simulated data to illustrate the framework methodology. The dataset was constructed to demonstrate the statistical and computational pipeline. Real-world application would require access to actual textbook content, subject to copyright considerations, and validation with human expert ratings.
 
 **Keywords:** Bias detection, large language models, Bayesian hierarchical modeling, inter-rater reliability, educational equity, PyMC
 
@@ -133,16 +135,18 @@ Key advantages include:
 
 ## 3. Methodology
 
+> **Demonstration Data Disclosure:** This section describes the simulated dataset used to demonstrate the framework. The data structure mirrors what would be collected from real textbooks, allowing validation of the statistical methodology. Real-world application would require actual textbook content, subject to publisher permissions and copyright considerations.
+
 ### 3.1 Data Construction
 
 #### 3.1.1 Corpus Specification
 
-A corpus of 150 textbooks was constructed across 5 major educational publishers, stratified by:
+A simulated corpus of 150 textbooks was constructed across 5 major educational publishers, stratified by:
 - Subject area (History, Social Studies, Literature, Science, Civics)
 - Grade level (Elementary, Middle, High School)
 - Publication year (2015-2024)
 
-**Table 1: Corpus Composition**
+**Table 1: Corpus Composition (Simulated)**
 
 | Publisher | Textbooks | Subject Distribution |
 |-----------|-----------|---------------------|
@@ -163,7 +167,7 @@ From each textbook, 30 passages (approximately 200-500 words each) were systemat
 
 This yielded 4,500 total passages (150 textbooks × 30 passages).
 
-**Table 2: Dataset Summary Statistics**
+**Table 2: Dataset Summary Statistics (Simulated)**
 
 | Metric | Value |
 |--------|-------|
@@ -184,11 +188,11 @@ Three frontier LLMs were selected for complementary strengths:
 
 | Model | Provider | Parameters | Training Approach | API Version |
 |-------|----------|------------|-------------------|-------------|
-| GPT-4 | OpenAI | ~1.8T* | RLHF | gpt-4-turbo-2024-04-09 |
-| Claude-3-Opus | Anthropic | ~175B* | Constitutional AI | claude-3-opus-20240229 |
+| GPT-4 | OpenAI | Not disclosed | RLHF | gpt-4-turbo-2024-04-09 |
+| Claude-3-Opus | Anthropic | Not disclosed | Constitutional AI | claude-3-opus-20240229 |
 | Llama-3-70B | Meta | 70B | Supervised FT + RLHF | llama-3-70b-instruct |
 
-*Estimated; not officially disclosed.
+*Note: OpenAI and Anthropic do not publicly disclose parameter counts for their models.*
 
 #### 3.2.2 Rating Protocol
 
