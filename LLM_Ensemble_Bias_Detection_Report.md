@@ -755,7 +755,7 @@ def robust_api_call(prompt: str, model: str) -> float:
 
 2. Anthropic. (2024). Claude 3 Model Card and Evaluations. *Anthropic Technical Documentation*.
 
-3. Touvron, H., et al. (2023). LLaMA: Open and Efficient Foundation Language Models. *arXiv preprint arXiv:2302.13971*.
+3. Touvron, H., et al. (2023). Llama: Open and Efficient Foundation Language Models. *arXiv preprint arXiv:2302.13971*.
 
 ### Statistical Methodology
 

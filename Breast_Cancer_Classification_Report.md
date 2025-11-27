@@ -557,10 +557,12 @@ ACTUAL            ├──────────┼────────�
 ```
 
 **Confusion Matrix Metrics:**
-- **True Positives (TP):** 70 — Benign correctly classified
-- **True Negatives (TN):** 42 — Malignant correctly classified  
-- **False Positives (FP):** 0 — No benign misclassified as malignant
-- **False Negatives (FN):** 1 — One malignant misclassified as benign (the critical error)
+- **True Negatives (TN):** 42 — Malignant correctly classified as malignant
+- **False Positives (FP):** 0 — No malignant misclassified as benign
+- **False Negatives (FN):** 1 — One benign misclassified as malignant
+- **True Positives (TP):** 70 — Benign correctly classified as benign
+
+*Note: In the WDBC dataset encoding, class 1 = Benign (positive class for model prediction). Clinical interpretation focuses on malignancy detection where sensitivity/recall for detecting malignant cases is critical.*
 
 ### 5.3 ROC Curve Analysis
 
@@ -667,8 +669,8 @@ Permutation importance provides model-agnostic feature rankings by measuring acc
 | **Specificity (TNR)** | 100.00% | TN/(TN+FP) | Probability of benign classification given no disease |
 | **Positive Predictive Value** | 100.00% | TP/(TP+FP) | Probability patient has cancer given positive test |
 | **Negative Predictive Value** | 97.67% | TN/(TN+FN) | Probability patient is cancer-free given negative test |
-| **Positive Likelihood Ratio** | ∞ | TPR/(1-TNR) | Strong evidence for disease when positive |
-| **Negative Likelihood Ratio** | 0.014 | (1-TPR)/TNR | Very low probability of disease when negative |
+| **Positive Likelihood Ratio** | ∞ | Sensitivity/(1-Specificity) | Strong evidence for disease when positive |
+| **Negative Likelihood Ratio** | 0.014 | (1-Sensitivity)/Specificity | Very low probability of disease when negative |
 
 ### 8.2 Clinical Decision Analysis
 
