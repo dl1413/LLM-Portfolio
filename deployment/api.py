@@ -92,7 +92,24 @@ class MetricsResponse(BaseModel):
 
 # Track application start time for uptime
 START_TIME = time.time()
-PREDICTION_COUNT = 0
+
+# Note: In production multi-worker deployment, use Redis or Prometheus 
+# for accurate cross-worker metrics. This counter is per-worker only.
+import threading
+_prediction_lock = threading.Lock()
+_prediction_count = 0
+
+def increment_prediction_count():
+    """Thread-safe prediction counter increment."""
+    global _prediction_count
+    with _prediction_lock:
+        _prediction_count += 1
+    return _prediction_count
+
+def get_prediction_count():
+    """Get current prediction count."""
+    with _prediction_lock:
+        return _prediction_count
 
 
 @app.post("/predict", response_model=PredictionResponse)
@@ -110,7 +127,6 @@ async def predict(request: PredictionRequest):
         - model_version: Model identifier
         - latency_ms: Inference time
     """
-    global PREDICTION_COUNT
     start_time = time.time()
     
     try:
@@ -135,7 +151,7 @@ async def predict(request: PredictionRequest):
         prob_benign = 1 - prob_malignant
         
         latency_ms = (time.time() - start_time) * 1000
-        PREDICTION_COUNT += 1
+        increment_prediction_count()
         
         logger.info(
             "Prediction made",
@@ -157,9 +173,14 @@ async def predict(request: PredictionRequest):
             latency_ms=round(latency_ms, 2)
         )
         
+    except ValueError as e:
+        # Input validation errors - safe to expose message
+        logger.warning(f"Invalid input: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
+        # Internal errors - log details but return generic message
         logger.error(f"Prediction failed: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error during prediction")
 
 
 @app.get("/health", response_model=HealthResponse)
@@ -183,6 +204,7 @@ async def get_metrics():
     Return model performance metrics.
     
     These metrics are from the holdout test set evaluation.
+    Note: total_predictions is per-worker in multi-worker deployments.
     """
     return MetricsResponse(
         accuracy=0.9912,
@@ -190,7 +212,7 @@ async def get_metrics():
         recall=0.9859,
         f1_score=0.9929,
         roc_auc=0.9987,
-        total_predictions=PREDICTION_COUNT
+        total_predictions=get_prediction_count()
     )
 
 

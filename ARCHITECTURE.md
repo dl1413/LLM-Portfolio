@@ -351,4 +351,4 @@ spec:
 
 ---
 
-*Architecture documentation updated January 2026*
+*Architecture documentation updated November 2025*
