@@ -1,0 +1,79 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Model artifacts (large files)
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+models/*.pkl
+
+# Data files
+*.csv
+*.parquet
+*.feather
+data/
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.tar
+
+# Profile/benchmark results
+*.stats
+profile.stats
+benchmarks/results/
+
+# MLflow
+mlruns/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
