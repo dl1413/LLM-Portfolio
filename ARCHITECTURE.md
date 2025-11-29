@@ -1,14 +1,14 @@
-# 🏗️ System Architecture
+# 📊 Data Analysis Methodology
 
 ## Overview
 
-This document describes the production ML system architecture for both portfolio projects, demonstrating scalable, fault-tolerant design principles applicable to frontier AI applications.
+This document describes the data analysis methodology and workflow architecture for both portfolio projects, demonstrating rigorous analytical approaches, reproducible research design, and scalable data processing techniques.
 
 ---
 
-## Project 1: Breast Cancer Classification Pipeline
+## Project 1: Healthcare Analytics - Cancer Classification
 
-### Production ML Pipeline Architecture
+### Data Analysis Pipeline
 
 ```
 ┌─────────────────┐
@@ -49,46 +49,46 @@ This document describes the production ML system architecture for both portfolio
 └─────────────────────────────┘
 ```
 
-### Design Principles
+### Data Analysis Principles
 
 | Principle | Implementation |
 |-----------|----------------|
-| **Modularity** | Each pipeline stage is independently testable |
-| **Fault Tolerance** | Graceful handling of missing data, model failures |
-| **Scalability** | Parallel cross-validation, efficient data structures |
-| **Observability** | Comprehensive logging, performance metrics |
-| **Reproducibility** | Fixed random seeds, versioned dependencies |
+| **Reproducibility** | Fixed random seeds, documented methodology, version control |
+| **Data Quality** | Comprehensive validation, missing data handling |
+| **Statistical Rigor** | Cross-validation, confidence intervals, hypothesis testing |
+| **Transparency** | Clear documentation, interpretable results |
+| **Scalability** | Efficient data structures, optimized processing |
 
-### API Architecture
+### Reporting & Visualization Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Load Balancer                             │
-│                   (nginx / ALB)                              │
+│                    Analysis Results                          │
+│               (Cleaned & Validated Data)                     │
 └─────────────────────┬───────────────────────────────────────┘
                       │
         ┌─────────────┴─────────────┐
         │                           │
         ▼                           ▼
 ┌───────────────┐          ┌───────────────┐
-│   API Pod 1   │          │   API Pod 2   │
-│   (FastAPI)   │          │   (FastAPI)   │
+│  Visualizations│         │   Reports     │
+│  (matplotlib) │          │   (Markdown)  │
 └───────┬───────┘          └───────┬───────┘
         │                           │
         └─────────────┬─────────────┘
                       │
                       ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    Model Registry                            │
-│                   (MLflow / S3)                              │
+│                    Stakeholder Deliverables                  │
+│              (Charts, Tables, Insights)                      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Project 2: LLM Ensemble Bias Detection
+## Project 2: Large-Scale Content Analysis Study
 
-### Distributed LLM Ensemble Architecture
+### Research Data Collection Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -114,241 +114,205 @@ This document describes the production ML system architecture for both portfolio
    └─────┘ └────┘ └─────┘
 ```
 
-### Components
+### Key Analysis Components
 
-#### 1. API Orchestration Layer
+#### 1. Data Collection Framework
 
 ```python
-class LLMOrchestrator:
-    """Manages multi-model API calls with fault tolerance."""
+class DataCollectionPipeline:
+    """Systematic data collection with validation."""
     
     def __init__(self):
-        self.clients = {
-            'gpt4': OpenAIClient(rate_limit=60),
-            'claude3': AnthropicClient(rate_limit=60),
-            'llama3': TogetherClient(rate_limit=60)
-        }
-        self.circuit_breakers = {
-            model: CircuitBreaker(failure_threshold=5)
-            for model in self.clients
+        self.sources = ['Source A', 'Source B', 'Source C']
+        self.validation_rules = {
+            'completeness': self.check_completeness,
+            'consistency': self.check_consistency,
+            'accuracy': self.check_accuracy
         }
         
-    async def call_with_retry(self, model, prompt, max_retries=3):
-        """Call LLM with exponential backoff retry."""
-        for attempt in range(max_retries):
-            try:
-                if self.circuit_breakers[model].is_open():
-                    raise CircuitBreakerOpen(f"{model} unavailable")
-                    
-                response = await self.clients[model].complete(prompt)
-                self.circuit_breakers[model].record_success()
-                return response
-                
-            except RateLimitError:
-                wait_time = 2 ** attempt
-                await asyncio.sleep(wait_time)
-            except APIError as e:
-                self.circuit_breakers[model].record_failure()
-                raise
-                
-        raise MaxRetriesExceeded()
+    def collect_and_validate(self, sample_ids):
+        """Collect data with comprehensive validation."""
+        results = []
+        for sample_id in sample_ids:
+            data = self.collect_from_sources(sample_id)
+            validated = self.apply_validation(data)
+            results.append(validated)
+        return pd.DataFrame(results)
 ```
 
-#### 2. Parallel Processing Pipeline
+#### 2. Statistical Analysis Pipeline
 
 ```python
-def process_passages_parallel(passages, models, max_workers=10):
-    """Process passages in parallel across all models."""
-    results = []
+def analyze_with_validation(data, hypothesis_tests):
+    """Perform statistical analysis with proper validation."""
+    results = {}
     
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_passage = {
-            executor.submit(rate_passage, passage, model): (passage, model)
-            for passage in passages
-            for model in models
-        }
+    # Descriptive statistics
+    results['descriptive'] = data.describe()
+    
+    # Normality testing
+    results['normality'] = stats.shapiro(data)
+    
+    # Hypothesis testing with multiple comparison correction
+    for test_name, test_func in hypothesis_tests.items():
+        results[test_name] = test_func(data)
         
-        for future in tqdm(as_completed(future_to_passage)):
-            passage, model = future_to_passage[future]
-            try:
-                result = future.result(timeout=30)
-                results.append(result)
-            except Exception as e:
-                logger.error(f"Failed: {e}")
-                results.append(None)
-                
+    # Apply Bonferroni correction
+    results['corrected_p'] = apply_bonferroni(results)
+    
     return results
 ```
 
-#### 3. Bayesian Inference Engine
+#### 3. Bayesian Statistical Modeling
 
 ```python
-class BayesianInferencePipeline:
-    """Production Bayesian hierarchical modeling with PyMC."""
+class BayesianAnalysis:
+    """Bayesian hierarchical modeling for uncertainty quantification."""
     
     def __init__(self, n_chains=4, n_iterations=2000):
         self.n_chains = n_chains
         self.n_iterations = n_iterations
-        self.convergence_threshold = 1.01  # R-hat
         
-    def sample_with_diagnostics(self, model):
-        """Sample with comprehensive diagnostics."""
-        with model:
+    def fit_hierarchical_model(self, data):
+        """Fit Bayesian model with convergence diagnostics."""
+        with pm.Model() as model:
+            # Define priors and likelihood
             trace = pm.sample(
                 draws=self.n_iterations,
                 chains=self.n_chains,
-                cores=self.n_chains,
                 return_inferencedata=True
             )
             
-            # Validate convergence
+            # Convergence diagnostics
             rhat = az.rhat(trace)
             ess = az.ess(trace)
-            self.validate_convergence(rhat, ess)
             
-            return trace
+            return trace, {'rhat': rhat, 'ess': ess}
 ```
 
 ---
 
-## Data Flow Diagrams
+## Data Flow & Analysis Workflow
 
-### Breast Cancer Classification
+### Healthcare Analytics: Cancer Classification
 
 ```
-Input Layer           Processing Layer         Output Layer
+Input Layer           Analysis Layer           Output Layer
 ───────────────────────────────────────────────────────────
                                               
-[Patient       ]     [StandardScaler  ]     [Prediction    ]
-[Features (30) ] ──▶ [Transform       ] ──▶ [Probability   ]
-                     [               ]     [Confidence    ]
+[Patient       ]     [Data Cleaning   ]     [Classification ]
+[Features (30) ] ──▶ [& Validation    ] ──▶ [Results        ]
+                     [               ]      [Confidence     ]
                             │
                             ▼
-                     [RFE Selector    ]
-                     [15 Features     ]
+                     [Feature Analysis]
+                     [& Selection     ]
                             │
                             ▼
-                     [AdaBoost Model  ]
+                     [Model Building  ]
                      [99.12% Accuracy ]
 ```
 
-### LLM Ensemble Bias Detection
+### Content Analysis Study
 
 ```
-Input Layer           Processing Layer         Output Layer
+Input Layer           Analysis Layer           Output Layer
 ───────────────────────────────────────────────────────────
 
-[Textbook      ]     [LLM Ensemble    ]     [Bias Score    ]
-[Passage       ] ──▶ [GPT-4, Claude,  ] ──▶ [Confidence    ]
-[              ]     [Llama           ]     [Explanation   ]
+[Text Content  ]     [Multi-Source    ]     [Analysis Score ]
+[Passages      ] ──▶ [Validation      ] ──▶ [Confidence     ]
+[              ]     [                ]     [Insights       ]
                             │
                             ▼
-                     [Aggregation     ]
-                     [Krippendorff α  ]
+                     [Reliability     ]
+                     [Assessment      ]
                             │
                             ▼
-                     [Bayesian Model  ]
-                     [Publisher Effects]
+                     [Statistical     ]
+                     [Modeling        ]
 ```
 
 ---
 
-## Monitoring & Observability
+## Data Quality & Validation
 
-### Metrics Collection
-
-```python
-from prometheus_client import Counter, Histogram, Gauge
-
-# Define metrics
-prediction_counter = Counter(
-    'predictions_total', 
-    'Total number of predictions',
-    ['model', 'prediction']
-)
-
-prediction_latency = Histogram(
-    'prediction_latency_seconds',
-    'Time spent processing prediction',
-    buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0]
-)
-
-model_confidence = Histogram(
-    'model_confidence',
-    'Prediction confidence distribution',
-    buckets=[0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99, 1.0]
-)
-```
-
-### Logging Configuration
+### Quality Metrics Tracking
 
 ```python
-import structlog
+import pandas as pd
 
-logger = structlog.get_logger()
-logger.info("Prediction made", extra={
-    "prediction": "Benign",
-    "confidence": 0.95,
-    "latency_ms": 0.8,
-    "model_version": "v1.0"
-})
+# Define quality metrics
+quality_metrics = {
+    'completeness': lambda df: df.notna().mean().mean(),
+    'uniqueness': lambda df: df.nunique() / len(df),
+    'consistency': lambda df: check_data_consistency(df),
+    'accuracy': lambda df: validate_against_rules(df)
+}
+
+def generate_quality_report(df):
+    """Generate comprehensive data quality report."""
+    report = {}
+    for metric_name, metric_func in quality_metrics.items():
+        report[metric_name] = metric_func(df)
+    return pd.DataFrame(report)
 ```
 
-### Alerting Rules
+### Validation Framework
 
-| Alert | Condition | Action |
+```python
+def validate_analysis_results(results):
+    """Validate analysis results before reporting."""
+    validations = {
+        'statistical_significance': check_p_values(results),
+        'effect_sizes': check_effect_sizes(results),
+        'confidence_intervals': check_ci_coverage(results),
+        'assumptions': check_statistical_assumptions(results)
+    }
+    return all(validations.values()), validations
+```
+
+### Quality Assurance Checklist
+
+| Check | Condition | Action |
 |-------|-----------|--------|
-| High Error Rate | 5xx > 5% (5min) | Page on-call |
-| Slow Predictions | p95 latency > 100ms | Investigate |
-| Low Confidence | confidence < 0.7 rate > 10% | Review model |
-| API Quota | usage > 80% daily | Scale up |
+| Missing Data | > 5% missing | Document and handle appropriately |
+| Outliers | > 3 std from mean | Investigate and document |
+| Assumptions | Violated | Use appropriate alternative methods |
+| Results | Unexpected patterns | Verify and investigate |
 
 ---
 
-## Deployment Architecture
+## Reproducibility & Documentation
 
-### Kubernetes Deployment
+### Analysis Environment Setup
 
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: breast-cancer-api
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: breast-cancer-api
-  template:
-    spec:
-      containers:
-      - name: api
-        image: breast-cancer-api:v1.0
-        ports:
-        - containerPort: 8000
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "500m"
-          limits:
-            memory: "512Mi"
-            cpu: "1000m"
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8000
+# environment.yml
+name: data-analysis
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pandas=2.0
+  - numpy=1.24
+  - scipy=1.11
+  - scikit-learn=1.3
+  - matplotlib=3.7
+  - seaborn=0.12
+  - pymc=5.0
+  - arviz=0.15
 ```
 
-### Production Considerations
+### Best Practices for Reproducible Analysis
 
 | Aspect | Implementation |
 |--------|----------------|
-| **Horizontal Scaling** | Stateless API design enables load balancing |
-| **Vertical Scaling** | 10x speedup through vectorization |
-| **Fault Tolerance** | Automatic retry with exponential backoff |
-| **Monitoring** | Prometheus metrics, structured logging |
-| **Security** | Input validation, rate limiting, secrets management |
+| **Random Seeds** | Set at beginning of each analysis |
+| **Version Control** | Track all code and configuration |
+| **Documentation** | Document methodology and decisions |
+| **Data Versioning** | Track data sources and transformations |
+| **Environment** | Use conda/pip for dependency management |
 
 ---
 
-*Architecture documentation updated November 2025*
+*Data Analysis Methodology documented November 2025*

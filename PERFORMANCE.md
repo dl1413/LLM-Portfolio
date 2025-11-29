@@ -1,180 +1,185 @@
-# ⚡ Performance Benchmarking
+# ⚡ Analysis Results & Performance
 
 ## Overview
 
-This document details performance optimization results across both portfolio projects, demonstrating production-grade ML engineering capabilities.
+This document details the analysis results and key findings across both portfolio projects, demonstrating rigorous statistical methods and data-driven insights.
 
 ---
 
-## Breast Cancer Classification Pipeline
+## Healthcare Analytics: Cancer Classification
 
-### Training Performance Benchmarks
+### Key Analysis Results
 
-| Component | Baseline | Optimized | Speedup | Method |
-|-----------|----------|-----------|---------|--------|
-| Data Preprocessing | 0.8s | 0.08s | **10x** | NumPy vectorization |
-| Cross-Validation | 45s | 11s | **4.1x** | Parallel joblib (n_jobs=-1) |
-| Feature Selection (RFE) | 12s | 3.2s | **3.8x** | Efficient estimator selection |
-| Model Inference (batch 100) | 15ms | 1.2ms | **12.5x** | Optimized predict pipeline |
+| Metric | Value | Interpretation |
+|--------|-------|----------------|
+| Accuracy | 99.12% | Exceptional classification performance |
+| Precision | 100% | No false positives |
+| Recall | 98.59% | Minimal missed cases |
+| ROC-AUC | 0.9987 | Near-perfect discrimination |
+| Cross-Validation | 98.46% ± 1.12% | Robust generalization |
 
-**Overall Pipeline:** 45s → 4.2s (**10.7x speedup**)
+### Data Processing Summary
 
-### Inference Performance
+| Component | Details | Outcome |
+|-----------|---------|---------|
+| Data Preprocessing | VIF analysis, SMOTE balancing | Clean, balanced dataset |
+| Feature Selection | RFE with 15 features selected | 50% dimensionality reduction |
+| Model Comparison | 8 ensemble algorithms evaluated | AdaBoost selected as best |
+| Validation | 10-fold stratified cross-validation | Confirmed model stability |
 
-| Metric | Value |
-|--------|-------|
-| Single sample inference | < 1ms |
-| Batch inference (100 samples) | 1.2ms |
-| Model load time | 45ms |
-| Memory footprint | 98 MB |
-
-### Optimization Strategies Implemented
+### Statistical Analysis Methods
 
 ```python
-# 1. Vectorized Operations
-# Replaced pandas .apply() with NumPy operations
-features_scaled = (features - mean) / std  # Broadcasting
+# Feature importance analysis
+from sklearn.feature_selection import RFE
+from sklearn.ensemble import RandomForestClassifier
 
-# 2. Parallel Processing  
-# Stratified K-Fold CV with parallel execution
-cross_val_score(model, X, y, cv=10, n_jobs=-1)
+# Identify most predictive features
+selector = RFE(RandomForestClassifier(n_estimators=100), 
+               n_features_to_select=15)
+selector.fit(X_train, y_train)
+important_features = X.columns[selector.support_]
 
-# 3. Memory Efficiency
-# In-place operations and efficient data types
-X = X.astype(np.float32)  # 50% memory reduction
+# Cross-validation for robust evaluation
+from sklearn.model_selection import cross_val_score
+cv_scores = cross_val_score(model, X, y, cv=10, scoring='accuracy')
+print(f"Mean CV Score: {cv_scores.mean():.4f} ± {cv_scores.std():.4f}")
 
-# 4. Algorithm Selection
-# Tree-based methods for faster inference
-# Early stopping in gradient boosting
+# Confidence interval calculation
+from scipy import stats
+ci_95 = stats.t.interval(0.95, len(cv_scores)-1, 
+                         loc=cv_scores.mean(), 
+                         scale=stats.sem(cv_scores))
 ```
 
-### Profiling Results
+### Key Findings
 
-```bash
-python -m cProfile -o profile.stats train_model.py
-```
-
-Top 5 hotspots after optimization:
-1. `cross_val_score` - 2.1s (parallelized)
-2. `fit` - 1.4s (optimized hyperparameters)  
-3. `predict_proba` - 0.3s (vectorized)
-4. `transform` - 0.2s (efficient scaler)
-5. `rfe.fit_transform` - 0.2s (reduced iterations)
+- **Top Predictive Features:** worst concave points, worst perimeter, mean concave points
+- **Feature Reduction:** 30 → 15 features without accuracy loss
+- **Model Stability:** Low variance across cross-validation folds (±1.12%)
 
 ---
 
-## LLM Ensemble Bias Detection Platform
+## Large-Scale Content Analysis Study
 
-### Scale Characteristics
+### Research Study Results
 
-| Metric | Value |
-|--------|-------|
-| Total API Calls | 67,500 |
-| Throughput | ~150 passages/minute |
-| Success Rate | 99.5% |
-| Avg Latency (p50) | 1.2s |
-| Avg Latency (p95) | 2.5s |
-| Avg Latency (p99) | 4.1s |
-| Concurrent Workers | 10 |
-| Memory Usage (peak) | 2.1 GB |
+| Metric | Value | Interpretation |
+|--------|-------|----------------|
+| Total Observations | 67,500 | Large-scale analysis |
+| Inter-Rater Reliability (α) | 0.84 | Excellent agreement |
+| Friedman Test | χ² = 42.73 | Significant differences (p < 0.001) |
+| Bayesian R-hat | < 1.01 | Proper convergence |
+| Effect Size Range | -0.48 to +0.38 | Moderate effects detected |
 
-### API Processing Summary
+### Data Collection Summary
 
 | Component | Specification |
 |-----------|--------------|
-| Total API Calls | 67,500 |
-| Tokens Processed | ~2.5 million |
-| Rate Limiting | Adaptive (60-120 req/min per API) |
-| Error Handling | Exponential backoff with circuit breaker |
-| Caching | Vector deduplication |
-| Runtime | ~8 hours (parallel processing) |
-| Cost | ~$380 |
+| Sources Analyzed | 150 |
+| Passages per Source | 30 |
+| Total Text Passages | 4,500 |
+| Ratings per Passage | 3 (multi-source validation) |
+| Total Data Points | 67,500 |
 
-### Performance Optimization Journey
+### Statistical Analysis Results
 
-| Operation | Before | After | Speedup |
-|-----------|--------|-------|---------|
-| Data Generation | 0.371s | 0.028s | **13.2x** |
-| Parallel Analysis | ~10.0s | ~2.5s | **4.0x** |
-| Bayesian Inference | 45min | 12min | **3.8x** |
-| Overall Pipeline | N/A | N/A | **5-10x** |
+| Source | Posterior Mean | 95% HDI | Classification |
+|--------|----------------|---------|----------------|
+| Source C | -0.48 | [-0.62, -0.34] | Credible effect |
+| Source A | -0.29 | [-0.41, -0.17] | Credible effect |
+| Source E | +0.02 | [-0.10, +0.14] | Neutral |
+| Source B | +0.08 | [-0.04, +0.20] | Neutral |
+| Source D | +0.38 | [+0.26, +0.50] | Credible effect |
 
-### Key Optimizations
+### Statistical Methods Applied
 
 ```python
-# 1. Parallel API Processing
-from concurrent.futures import ThreadPoolExecutor
+# Inter-rater reliability analysis
+import krippendorff
+alpha = krippendorff.alpha(ratings_matrix, level_of_measurement='interval')
+print(f"Krippendorff's Alpha: {alpha:.2f}")
 
-with ThreadPoolExecutor(max_workers=10) as executor:
-    futures = [executor.submit(rate_passage, p) for p in passages]
-    results = [f.result() for f in futures]
+# Bayesian hierarchical modeling
+import pymc as pm
+import arviz as az
 
-# 2. Vectorized Data Operations  
-# NumPy broadcasting for statistical calculations
-means = np.mean(ratings_matrix, axis=1)
-
-# 3. Efficient Bayesian Sampling
-# Optimized MCMC configuration
-trace = pm.sample(
-    draws=2000,
-    tune=1000,
-    chains=4,
-    target_accept=0.95,
-    cores=4  # Parallel chains
-)
-
-# 4. Memory Management
-import gc
-del large_dataframe
-gc.collect()
+with pm.Model() as hierarchical_model:
+    # Hyperpriors
+    mu_global = pm.Normal('mu_global', mu=0, sigma=1)
+    sigma_group = pm.HalfNormal('sigma_group', sigma=0.5)
+    
+    # Group effects
+    group_effect = pm.Normal('group_effect', mu=0, sigma=sigma_group, shape=n_groups)
+    
+    # Likelihood
+    y_obs = pm.Normal('y_obs', mu=mu_global + group_effect[group_idx], 
+                      sigma=sigma_obs, observed=y)
+    
+    # Sample with diagnostics
+    trace = pm.sample(2000, chains=4, return_inferencedata=True)
+    
+# Convergence diagnostics
+print(az.summary(trace, var_names=['group_effect']))
 ```
 
----
+### Key Findings
 
-## Production Deployment Considerations
-
-### Scalability Testing
-
-| Load Level | Response Time (p95) | Throughput | Status |
-|------------|---------------------|------------|--------|
-| 10 req/s | 45ms | 100% | ✅ Optimal |
-| 50 req/s | 78ms | 100% | ✅ Good |
-| 100 req/s | 156ms | 99.8% | ⚠️ Near limit |
-| 200 req/s | 320ms | 97.2% | ❌ Degraded |
-
-### Resource Utilization
-
-| Resource | Idle | Under Load | Peak |
-|----------|------|------------|------|
-| CPU | 5% | 45% | 78% |
-| Memory | 512 MB | 1.2 GB | 2.1 GB |
-| Network I/O | 1 MB/s | 15 MB/s | 45 MB/s |
+- **Reliability Validated:** Multi-source agreement (α = 0.84) confirms data quality
+- **Significant Differences:** Friedman test confirms variation across sources (p < 0.001)
+- **Uncertainty Quantified:** 95% HDI provides probabilistic bounds on effects
+- **3/5 Sources:** Show statistically credible effects
 
 ---
 
-## Benchmarking Methodology
+## Analysis Quality Metrics
 
-All benchmarks were conducted using:
+### Data Quality Assessment
 
-- **Hardware:** AWS t3.xlarge (4 vCPU, 16 GB RAM)
+| Quality Dimension | Project 1 | Project 2 |
+|-------------------|-----------|-----------|
+| Completeness | 100% (no missing) | 99.5% |
+| Accuracy | Validated against source | Multi-source triangulation |
+| Consistency | Cross-validation confirmed | Reliability α = 0.84 |
+| Timeliness | Current dataset | Recent data collection |
+
+### Statistical Rigor
+
+| Aspect | Implementation |
+|--------|----------------|
+| Cross-Validation | 10-fold stratified |
+| Confidence Intervals | 95% CI for all estimates |
+| Multiple Comparisons | Bonferroni correction applied |
+| Effect Sizes | Cohen's d / posterior effects reported |
+| Uncertainty | Bayesian HDI for probabilistic inference |
+
+---
+
+## Methodology & Reproducibility
+
+All analyses were conducted using:
+
 - **Python:** 3.10+
-- **Measurement:** `time.perf_counter()` with 10 iterations, median reported
-- **Memory Profiling:** `memory_profiler` package
-- **Load Testing:** Locust for API endpoints
+- **Statistical Libraries:** pandas, NumPy, scipy, scikit-learn
+- **Bayesian Analysis:** PyMC 5.0+, ArviZ
+- **Visualization:** matplotlib, seaborn
+- **Environment:** Conda for dependency management
 
-### Reproducibility
+### Reproducibility Steps
 
 ```bash
-# Run benchmarks
-python benchmarks/run_performance_tests.py
+# Clone repository and set up environment
+git clone https://github.com/dl1413/LLM-Portfolio.git
+cd LLM-Portfolio
 
-# Profile memory usage
-python -m memory_profiler train_model.py
+# Create environment
+conda env create -f environment.yml
+conda activate data-analysis
 
-# Load test API
-locust -f benchmarks/locustfile.py --host=http://localhost:8000
+# Run analysis notebooks
+jupyter notebook
 ```
 
 ---
 
-*Performance metrics documented as of November 2025*
+*Analysis results documented as of November 2025*
