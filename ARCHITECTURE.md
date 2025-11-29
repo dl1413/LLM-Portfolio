@@ -120,7 +120,17 @@ This document describes the data analysis methodology and workflow architecture 
 
 ```python
 class DataCollectionPipeline:
-    """Systematic data collection with validation."""
+    """
+    Systematic data collection pipeline with comprehensive validation.
+    
+    Attributes:
+        sources (list): List of data source identifiers
+        validation_rules (dict): Dictionary mapping rule names to validation functions
+    
+    Example:
+        pipeline = DataCollectionPipeline()
+        data = pipeline.collect_and_validate(['sample_001', 'sample_002'])
+    """
     
     def __init__(self):
         self.sources = ['Source A', 'Source B', 'Source C']
@@ -131,7 +141,15 @@ class DataCollectionPipeline:
         }
         
     def collect_and_validate(self, sample_ids):
-        """Collect data with comprehensive validation."""
+        """
+        Collect data from sources and apply validation rules.
+        
+        Args:
+            sample_ids (list): List of sample identifiers to collect
+            
+        Returns:
+            pd.DataFrame: Validated data with all quality checks passed
+        """
         results = []
         for sample_id in sample_ids:
             data = self.collect_from_sources(sample_id)
@@ -144,7 +162,18 @@ class DataCollectionPipeline:
 
 ```python
 def analyze_with_validation(data, hypothesis_tests):
-    """Perform statistical analysis with proper validation."""
+    """
+    Perform statistical analysis with comprehensive validation.
+    
+    Args:
+        data (pd.DataFrame): Input data for analysis
+        hypothesis_tests (dict): Dictionary mapping test names to test functions
+            Example: {'t_test': scipy.stats.ttest_ind, 'anova': scipy.stats.f_oneway}
+    
+    Returns:
+        dict: Analysis results including descriptive stats, normality tests,
+              and hypothesis test outcomes with corrected p-values
+    """
     results = {}
     
     # Descriptive statistics

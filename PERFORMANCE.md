@@ -169,8 +169,8 @@ All analyses were conducted using:
 
 ```bash
 # Clone repository and set up environment
-git clone https://github.com/dl1413/LLM-Portfolio.git
-cd LLM-Portfolio
+git clone https://github.com/dl1413/Data-Analyst-Portfolio.git
+cd Data-Analyst-Portfolio
 
 # Create environment
 conda env create -f environment.yml
