@@ -1,0 +1,46 @@
+# Git
+.git/
+.gitignore
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Test files
+tests/
+.pytest_cache/
+.coverage
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Large data files (mount these as volumes)
+data/
+models/
+*.pkl
+*.h5
+*.pt
+*.pth
+*.bin
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
