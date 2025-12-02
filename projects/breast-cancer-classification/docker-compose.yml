@@ -1,0 +1,14 @@
+services:
+  breast-cancer-classification:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: breast-cancer-classification
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    restart: unless-stopped

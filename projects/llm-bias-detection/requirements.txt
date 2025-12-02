@@ -1,0 +1,34 @@
+# Core ML/AI dependencies
+pandas>=2.0.0
+numpy>=1.24.0
+scipy>=1.11.0
+
+# LLM APIs
+openai>=1.0.0
+anthropic>=0.7.0
+
+# Bayesian modeling
+pymc>=5.10.0
+arviz>=0.17.0
+
+# Statistical analysis
+krippendorff>=0.6.0
+statsmodels>=0.14.0
+
+# API and web framework
+fastapi>=0.100.0
+uvicorn>=0.23.0
+
+# MLOps
+mlflow>=2.8.0
+langchain>=0.1.0
+
+# Utilities
+python-dotenv>=1.0.0
+tqdm>=4.65.0
+tenacity>=8.2.0
+structlog>=23.2.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
