@@ -1,10 +1,10 @@
-# LLM Bias Detection - Deployment
+# Breast Cancer Classification - Deployment
 
-This folder contains deployment files for the LLM Bias Detection project.
+This folder contains deployment files for the Breast Cancer Classification project.
 
 ## Project Overview
 
-This project presents a novel computational framework for detecting and quantifying political bias in educational textbooks using an ensemble of three frontier Large Language Models (GPT-4, Claude-3-Opus, and Llama-3-70B) combined with Bayesian hierarchical modeling. The analysis achieved excellent inter-rater reliability (Krippendorff's α = 0.84) across **67,500 bias ratings**.
+This project implements an ensemble machine learning pipeline for binary classification of breast cancer tumors using the Wisconsin Diagnostic Breast Cancer (WDBC) dataset. The best-performing model (AdaBoost) achieved **99.12% accuracy**, **100% precision**, **98.59% recall**, and **0.9987 ROC-AUC**.
 
 ## Files
 
@@ -13,8 +13,8 @@ This project presents a novel computational framework for detecting and quantify
 - **requirements.txt** - Python dependencies
 - **.gitignore** - Git ignore patterns for the project
 - **.dockerignore** - Docker ignore patterns to optimize build context
-- **LLM_Ensemble_Bias_Detection_Report.md** - Full technical analysis report
-- **LLM_Bias_Detection_Publication.pdf** - Publication-ready document
+- **Breast_Cancer_Classification_Report.md** - Full technical analysis report
+- **Breast_Cancer_Classification_Publication.pdf** - Publication-ready document
 
 ## Quick Start
 
@@ -35,10 +35,10 @@ docker-compose down
 
 ```bash
 # Build the image
-docker build -t llm-bias-detection .
+docker build -t breast-cancer-classification .
 
 # Run the container
-docker run -p 8000:8000 llm-bias-detection
+docker run -p 8000:8000 breast-cancer-classification
 ```
 
 ## Configuration
@@ -47,9 +47,8 @@ Environment variables can be configured in a `.env` file:
 
 ```env
 # Example .env file
-OPENAI_API_KEY=your-openai-key
-ANTHROPIC_API_KEY=your-anthropic-key
-TOGETHER_API_KEY=your-together-key
+MODEL_PATH=models/adaboost_model.pkl
+MLFLOW_TRACKING_URI=http://localhost:5000
 ```
 
 ## Volumes
@@ -63,14 +62,14 @@ The following directories are mounted as volumes for persistent data:
 
 Once deployed, the API provides:
 
-- `POST /analyze` - Submit textbook passage for bias analysis
+- `POST /predict` - Submit features for classification
 - `GET /health` - Health check endpoint
-- `GET /model/info` - Model metadata and ensemble configuration
+- `GET /model/info` - Model metadata and version
 
 ## Technologies
 
 - Python 3.11
-- PyMC for Bayesian modeling
-- OpenAI, Anthropic, Together APIs
+- scikit-learn, XGBoost, LightGBM, CatBoost
 - FastAPI + Uvicorn
 - MLflow for experiment tracking
+- SHAP for explainability
