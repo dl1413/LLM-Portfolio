@@ -1,0 +1,16 @@
+services:
+  llm-medical-diagnosis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: llm-medical-diagnosis
+    ports:
+      - "8002:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    restart: unless-stopped
