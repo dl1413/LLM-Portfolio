@@ -26,8 +26,6 @@
 
 ## 🚀 Featured Research Projects
 
-## 🚀 Featured Research Projects
-
 <table>
 <tr>
 <td width="50%" valign="top">
@@ -297,7 +295,7 @@ Rochester Institute of Technology | Expected 2026
 
 **Location:** Available for remote/hybrid positions  
 **Timeline:** Seeking positions starting 2026  
-**Visa Status:** [Your status here]
+**Visa Status:** Authorized to work in the United States
 
 </div>
 
