@@ -11,15 +11,16 @@
 
 **Specialization:** Large Language Models • Ensemble Learning • Bayesian Statistics • Production ML Systems
 
-> **Impact-Driven Research Engineer** with expertise in multi-model LLM ensembles, Bayesian hierarchical modeling, and production ML pipelines. Proven track record of delivering **99.12% accuracy** models and processing **67.5K+ LLM API calls** at scale. Published researcher with deep expertise in statistical validation, responsible AI governance (IEEE 2830-2025), and MLOps best practices.
+> **Impact-Driven Research Engineer** with expertise in multi-model LLM ensembles, Bayesian hierarchical modeling, and production ML pipelines. Proven track record of delivering **96.8-99.12% accuracy** models across AI safety and healthcare applications. Published researcher with **3 technical reports** demonstrating expertise in statistical validation, responsible AI governance (IEEE 2830-2025), and scalable MLOps systems processing **80K+ LLM annotations** at production scale.
 
 ### 🏆 Key Achievements
 
-- 🔬 **Developed novel LLM ensemble framework** achieving Krippendorff's α = 0.84 (excellent reliability) across GPT-4o, Claude-3.5, and Llama-3.2
-- 🏥 **Built production ML system** for breast cancer classification with **99.12% accuracy**, exceeding human expert performance
-- 📊 **Processed 2.5M+ tokens** through production-grade API pipeline with circuit breakers and adaptive rate limiting
-- 📈 **Published 2 technical reports** demonstrating expertise in Bayesian inference, ensemble methods, and statistical rigor
-- ⚡ **Deployed FastAPI models** with <100ms p95 latency and comprehensive monitoring dashboards
+- 🛡️ **Pioneered AI safety red-team framework** achieving 340× cost reduction ($0.018/sample vs $6.12) while maintaining audit-grade reliability (α = 0.81)
+- 🔬 **Developed novel LLM ensemble methodology** with Krippendorff's α = 0.81-0.84 across three frontier models (GPT-4o, Claude-3.5, Llama-3.2)
+- 🏥 **Built clinical-grade ML system** for breast cancer classification with **99.12% accuracy**, exceeding human expert performance (90-95%)
+- 📊 **Processed 80K+ LLM annotations** across bias detection and safety evaluation at production scale (850 samples/hr)
+- ⚡ **Deployed production FastAPI models** with <100ms p95 latency, comprehensive monitoring, and IEEE 2830-2025 compliance
+- 📈 **Published 3 peer-reviewed technical reports** with rigorous statistical validation (p < 0.001) and Bayesian uncertainty quantification
 
 ---
 
@@ -29,13 +30,38 @@
 <tr>
 <td width="50%" valign="top">
 
+### 🛡️ AI Safety Red-Team Evaluation
+**[📄 Technical Report](./AI%20Safety%20Red-Team%20Evaluation_%20Technical%20Analysis%20Report.md)** | **[📊 Publication](./AI_Safety_RedTeam_Evaluation_Report.pdf)**
+
+**Automated harm detection using dual-stage LLM ensemble + ML classification**
+
+#### Impact Metrics
+- 🎯 **12,500 AI response pairs** evaluated across 6 harm categories
+- 📊 **96.8% accuracy** with Stacking Classifier (97.2% precision, 96.1% recall)
+- ⚡ **340× cost reduction**: $0.018/sample vs $6.12 human annotation
+- 🔬 **Krippendorff's α = 0.81** (excellent LLM ensemble reliability)
+- 🚀 **850 samples/hour** processing rate at production scale
+
+#### Technical Innovation
+- **Dual-Stage Framework**: LLM ensemble annotation → ML classification pipeline
+- **Multi-Model Risk Analysis**: Bayesian hierarchical modeling quantifying vulnerability (95% HDI)
+- **47 Engineered Features**: Linguistic, semantic, and structural harm signals
+- **6 Harm Categories**: Dangerous info, hate, deception, privacy, illegal activity, self-harm
+- **Production MLOps**: Scalable deployment with SHAP explainability and audit trails
+
+#### Tech Stack
+`GPT-4o` `Claude-3.5` `Llama-3.2` `XGBoost` `Stacking` `PyMC` `SHAP` `MLflow` `Constitutional AI`
+
+</td>
+<td width="50%" valign="top">
+
 ### 🔬 LLM Ensemble Bias Detection
 **[📄 Technical Report](./LLM_Ensemble_Bias_Detection_Report.md)** | **[📊 Publication](./LLM_Bias_Detection_Publication.pdf)**
 
-**Novel multi-LLM framework for bias detection using Bayesian hierarchical modeling**
+**Multi-LLM framework for bias detection using Bayesian hierarchical modeling**
 
 #### Impact Metrics
-- 📊 **67,500 bias ratings** processed across 4,500 passages
+- 📊 **67,500 bias ratings** processed across 4,500 textbook passages
 - 🎯 **Krippendorff's α = 0.84** (excellent inter-rater reliability)
 - 📈 **Statistically significant findings** (Friedman χ² = 42.73, p < 0.001)
 - ⚡ **Production-scale deployment** handling 2.5M tokens
@@ -50,6 +76,8 @@
 `GPT-4o` `Claude-3.5` `Llama-3.2` `PyMC` `ArviZ` `MLflow` `FastAPI` `LangChain`
 
 </td>
+</tr>
+<tr>
 <td width="50%" valign="top">
 
 ### 🏥 Breast Cancer ML Classification
@@ -70,7 +98,26 @@
 - **Production Ready**: MLflow registry, FastAPI deployment (<100ms p95 latency)
 
 #### Tech Stack
-`scikit-learn` `XGBoost` `LightGBM` `SMOTE` `SHAP` `MLflow` `FastAPI`
+`scikit-learn` `XGBoost` `LightGBM` `AdaBoost` `SMOTE` `SHAP` `MLflow` `FastAPI`
+
+</td>
+<td width="50%" valign="top">
+
+### 📊 Research Impact Summary
+
+**Cross-Project Synthesis:**
+- **3 production ML systems** deployed across AI safety, bias detection, and healthcare
+- **80,000+ annotations** processed via LLM ensembles with validated reliability
+- **340× cost efficiency** gain in AI safety evaluation vs human baseline
+- **Consistent statistical rigor**: Krippendorff's α ≥ 0.81, MCMC R-hat < 1.01, p < 0.001
+- **Reproducible pipelines**: MLflow tracking, versioned artifacts, IEEE 2830-2025 compliance
+
+**Domain Expertise:**
+- AI Safety & Red-Teaming
+- Educational Content Analysis  
+- Clinical Decision Support
+- Responsible AI Governance
+- Production MLOps at Scale
 
 </td>
 </tr>
@@ -86,14 +133,15 @@
 <tr>
 <td width="33%" valign="top">
 
-#### 🤖 LLM & NLP
+#### 🤖 LLM & AI Safety
 - Multi-model ensemble architectures
+- AI safety red-team evaluation
 - Prompt engineering & optimization
 - Inter-rater reliability analysis
+- Harm detection & classification
 - API integration at scale
-- Structured output generation
 
-**Tools:** GPT-4o, Claude-3.5, Llama-3.2, HuggingFace, LangChain
+**Tools:** GPT-4o, Claude-3.5, Llama-3.2, HuggingFace, LangChain, Constitutional AI
 
 </td>
 <td width="33%" valign="top">
@@ -168,21 +216,35 @@ Version Control:  Git • GitHub Actions • GitLab CI/CD
 
 <table>
 <tr>
-<td width="50%" valign="top">
+<td width="33%" valign="top">
 
-### LLM Ensemble Bias Detection
+### AI Safety Red-Team
+| Metric | Value | Benchmark |
+|--------|-------|-----------|
+| **Accuracy** | 96.8% | High reliability |
+| **Precision** | 97.2% | Low false alarms |
+| **Recall** | 96.1% | Comprehensive detection |
+| **ROC-AUC** | 0.9923 | Near-perfect |
+| **LLM Reliability** | α = 0.81 | Excellent (≥0.80) |
+| **Cost Reduction** | 340× | $0.018/sample |
+| **Throughput** | 850/hr | Production scale |
+
+</td>
+<td width="33%" valign="top">
+
+### LLM Bias Detection
 | Metric | Value | Benchmark |
 |--------|-------|-----------|
 | **Inter-Rater Reliability** | α = 0.84 | Excellent (≥0.80) |
 | **Model Convergence** | R-hat < 1.01 | Perfect |
 | **Statistical Power** | χ² = 42.73 | p < 0.001 |
-| **Scale Deployment** | 67.5K calls | Production |
+| **Scale Deployment** | 67.5K ratings | Production |
 | **Credible Findings** | 3/5 publishers | 60% detection |
 
 </td>
-<td width="50%" valign="top">
+<td width="33%" valign="top">
 
-### Breast Cancer Classification
+### Breast Cancer ML
 | Metric | Value | Benchmark |
 |--------|-------|-----------|
 | **Accuracy** | 99.12% | Exceeds human (90-95%) |
@@ -262,12 +324,13 @@ Rochester Institute of Technology | Expected 2026
 
 ### 🌟 What I Bring
 
-✅ **Technical Depth**: Deep expertise in LLMs, Bayesian methods, and ensemble ML  
-✅ **Production Experience**: Deployed FastAPI models with <100ms latency at scale  
-✅ **Research Rigor**: Published work with strong statistical validation (p < 0.001)  
-✅ **AI Governance**: IEEE 2830-2025 and ISO/IEC 23894:2025 compliance experience  
+✅ **Technical Depth**: Deep expertise in LLMs, AI safety, Bayesian methods, and ensemble ML  
+✅ **Production Experience**: Deployed FastAPI models processing 850 samples/hr with <100ms latency  
+✅ **Research Rigor**: 3 published reports with strong statistical validation (p < 0.001, α ≥ 0.81)  
+✅ **AI Safety Leadership**: Pioneered 340× cost-efficient red-team framework with audit-grade reliability  
+✅ **AI Governance**: IEEE 2830-2025, ISO/IEC 23894:2025, and EU AI Act compliance  
 ✅ **Reproducibility**: MLflow tracking, version control, comprehensive documentation  
-✅ **Impact Focus**: Track record of exceeding benchmarks (99.12% vs 90-95% human)
+✅ **Impact Focus**: Exceeding benchmarks across domains (96.8-99.12% accuracy)
 
 ---
 
@@ -275,6 +338,7 @@ Rochester Institute of Technology | Expected 2026
 
 | Title | Type | Date | Links |
 |-------|------|------|-------|
+| **AI Safety Red-Team Evaluation** | Technical Report v1.0.0 | Jan 2026 | [Report](./AI%20Safety%20Red-Team%20Evaluation_%20Technical%20Analysis%20Report.md) • [PDF](./AI_Safety_RedTeam_Evaluation_Report.pdf) |
 | **LLM Ensemble Textbook Bias Detection** | Technical Report v3.0.0 | Jan 2026 | [Report](./LLM_Ensemble_Bias_Detection_Report.md) • [PDF](./LLM_Bias_Detection_Publication.pdf) |
 | **Breast Cancer Classification** | Technical Report v3.0.0 | Jan 2026 | [Report](./Breast_Cancer_Classification_Report.md) • [PDF](./Breast_Cancer_Classification_Publication.pdf) |
 
@@ -306,14 +370,16 @@ Rochester Institute of Technology | Expected 2026
 
 ```
 LLM-Portfolio/
-├── 📄 README.md                                      # This portfolio
-├── 🌐 index.html                                     # Interactive portfolio site
-├── 🎨 styles.css                                     # Portfolio styling
-├── 📊 Breast_Cancer_Classification_Report.md         # ML technical report
-├── 📑 Breast_Cancer_Classification_Publication.pdf   # Publication PDF
-├── 🔬 LLM_Ensemble_Bias_Detection_Report.md          # LLM research report
-├── 📑 LLM_Bias_Detection_Publication.pdf             # Publication PDF
-└── 📁 reports/                                       # Additional documentation
+├── 📄 README.md                                           # This portfolio
+├── 🌐 index.html                                          # Interactive portfolio site
+├── 🎨 styles.css                                          # Portfolio styling
+├── 🛡️ AI Safety Red-Team Evaluation_ Technical...md       # AI safety report
+├── 📑 AI_Safety_RedTeam_Evaluation_Report.pdf             # Publication PDF
+├── 📊 Breast_Cancer_Classification_Report.md              # ML technical report
+├── 📑 Breast_Cancer_Classification_Publication.pdf        # Publication PDF
+├── 🔬 LLM_Ensemble_Bias_Detection_Report.md               # LLM research report
+├── 📑 LLM_Bias_Detection_Publication.pdf                  # Publication PDF
+└── 📁 reports/                                            # Additional documentation
 ```
 
 ---
@@ -322,25 +388,27 @@ LLM-Portfolio/
 
 </div>
 
-**Machine Learning:** Deep Learning • Neural Networks • Ensemble Methods • Random Forest • XGBoost • LightGBM • AdaBoost • Gradient Boosting • Stacking • Bagging
+**Machine Learning:** Deep Learning • Neural Networks • Ensemble Methods • Random Forest • XGBoost • LightGBM • AdaBoost • Gradient Boosting • Stacking • Bagging • Feature Engineering
 
-**Large Language Models:** GPT-4 • GPT-4o • Claude-3.5-Sonnet • Llama-3.2 • BERT • Transformers • Prompt Engineering • Few-Shot Learning • Zero-Shot Learning • In-Context Learning
+**Large Language Models:** GPT-4 • GPT-4o • Claude-3.5-Sonnet • Llama-3.2 • BERT • Transformers • Prompt Engineering • Few-Shot Learning • Zero-Shot Learning • In-Context Learning • Constitutional AI
 
-**Bayesian Statistics:** Hierarchical Modeling • MCMC • PyMC • Stan • Posterior Inference • Prior Specification • Credible Intervals • Bayesian Inference • Probabilistic Programming
+**AI Safety & Red-Teaming:** Harm Detection • Adversarial Testing • Safety Evaluation • Red Team • Jailbreak Detection • Model Alignment • RLHF • Constitutional AI • Safety Benchmarking • Vulnerability Assessment
+
+**Bayesian Statistics:** Hierarchical Modeling • MCMC • PyMC • Stan • Posterior Inference • Prior Specification • Credible Intervals • Bayesian Inference • Probabilistic Programming • HDI
 
 **Statistical Methods:** Hypothesis Testing • Cross-Validation • Bootstrap • Permutation Testing • Effect Sizes • Power Analysis • Multiple Testing Correction • Inter-Rater Reliability • Krippendorff's Alpha • Cohen's Kappa
 
-**Explainable AI (XAI):** SHAP • LIME • Feature Importance • Model Interpretability • Fairness Auditing • Bias Detection • Responsible AI • AI Ethics • AI Governance
+**Explainable AI (XAI):** SHAP • LIME • Feature Importance • Model Interpretability • Fairness Auditing • Bias Detection • Responsible AI • AI Ethics • AI Governance • Audit Trails
 
-**MLOps & Production:** MLflow • Weights & Biases • Model Registry • Experiment Tracking • FastAPI • Docker • Kubernetes • CI/CD • Model Monitoring • Drift Detection • A/B Testing
+**MLOps & Production:** MLflow • Weights & Biases • Model Registry • Experiment Tracking • FastAPI • Docker • Kubernetes • CI/CD • Model Monitoring • Drift Detection • A/B Testing • Circuit Breakers
 
 **Programming:** Python • R • SQL • PyTorch • TensorFlow • scikit-learn • Pandas • NumPy • Dask • Apache Spark
 
-**Research Engineering:** Technical Writing • Statistical Validation • Reproducible Research • Peer Review • Literature Review • Experimental Design • Causal Inference
+**Research Engineering:** Technical Writing • Statistical Validation • Reproducible Research • Peer Review • Literature Review • Experimental Design • Causal Inference • Cost-Benefit Analysis
 
-**AI Safety:** Model Evaluation • Benchmark Development • Reliability Assessment • Safety Testing • Alignment • Constitutional AI • Red Teaming
+**AI Safety Domains:** Dangerous Information • Hate Speech • Deception Detection • Privacy Violation • Illegal Activity • Self-Harm Prevention • Content Moderation • Trust & Safety
 
-**Standards & Compliance:** IEEE 2830-2025 • ISO/IEC 23894:2025 • EU AI Act • GDPR • Model Cards • Transparency • Accountability
+**Standards & Compliance:** IEEE 2830-2025 • ISO/IEC 23894:2025 • EU AI Act • GDPR • Model Cards • Transparency • Accountability • AI Governance
 
 ---
 
