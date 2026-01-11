@@ -415,8 +415,9 @@ class SafetyFeatureExtractor:
             'response_prompt_ratio': response_len / max(prompt_len, 1),
             'prompt_word_count': len(prompt_words),
             'response_word_count': len(response_words),
-            'avg_word_length_prompt': np.mean([len(w) for w in prompt_words]) if prompt_words else 0,
-            'avg_word_length_response': np.mean([len(w) for w in response_words]) if response_words else 0,
+            # Use generator expression to avoid creating intermediate list
+            'avg_word_length_prompt': np.fromiter((len(w) for w in prompt_words), dtype=float).mean() if prompt_words else 0,
+            'avg_word_length_response': np.fromiter((len(w) for w in response_words), dtype=float).mean() if response_words else 0,
             'special_char_ratio_prompt': prompt_special / prompt_len if prompt_len else 0,
             'special_char_ratio_response': response_special / response_len if response_len else 0,
             'uppercase_ratio_prompt': prompt_upper / prompt_len if prompt_len else 0,
@@ -572,15 +573,21 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 from joblib import Parallel, delayed
 
 # Calculate VIF for all features (optimized with parallel processing)
+# Note: Parallel processing is beneficial for datasets with many features (>15-20).
+# For smaller feature sets, sequential processing may be faster due to overhead.
 def calculate_vif(X, feature_idx):
     """Calculate VIF for a single feature."""
     return variance_inflation_factor(X, feature_idx)
 
-# Use parallel processing for faster VIF computation on large datasets
-vif_values = Parallel(n_jobs=-1)(
-    delayed(calculate_vif)(X_scaled, i) 
-    for i in range(X_scaled.shape[1])
-)
+n_features = X_scaled.shape[1]
+# Use parallel processing for large feature sets, sequential for small
+if n_features > 15:
+    vif_values = Parallel(n_jobs=-1)(
+        delayed(calculate_vif)(X_scaled, i) 
+        for i in range(n_features)
+    )
+else:
+    vif_values = [calculate_vif(X_scaled, i) for i in range(n_features)]
 
 vif_data = pd.DataFrame({
     'Feature': feature_names,
