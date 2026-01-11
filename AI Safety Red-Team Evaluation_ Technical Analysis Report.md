@@ -393,18 +393,34 @@ class SafetyFeatureExtractor:
         return np.array(list(features.values()))
     
     def _lexical_features(self, prompt: str, response: str) -> Dict:
-        """Word-level and character-level statistics."""
+        """Word-level and character-level statistics.
+        
+        Optimized: Cache split results and length calculations to avoid
+        redundant string operations.
+        """
+        # Cache expensive operations
+        prompt_words = prompt.split()
+        response_words = response.split()
+        prompt_len = len(prompt)
+        response_len = len(response)
+        
+        # Pre-compute character classifications in single pass
+        prompt_special = sum(1 for c in prompt if not c.isalnum())
+        prompt_upper = sum(1 for c in prompt if c.isupper())
+        response_special = sum(1 for c in response if not c.isalnum())
+        
         return {
-            'prompt_length': len(prompt),
-            'response_length': len(response),
-            'response_prompt_ratio': len(response) / max(len(prompt), 1),
-            'prompt_word_count': len(prompt.split()),
-            'response_word_count': len(response.split()),
-            'avg_word_length_prompt': np.mean([len(w) for w in prompt.split()]),
-            'avg_word_length_response': np.mean([len(w) for w in response.split()]),
-            'special_char_ratio_prompt': sum(not c.isalnum() for c in prompt) / len(prompt),
-            'special_char_ratio_response': sum(not c.isalnum() for c in response) / len(response),
-            'uppercase_ratio_prompt': sum(c.isupper() for c in prompt) / len(prompt),
+            'prompt_length': prompt_len,
+            'response_length': response_len,
+            'response_prompt_ratio': response_len / max(prompt_len, 1),
+            'prompt_word_count': len(prompt_words),
+            'response_word_count': len(response_words),
+            # Use generator expression to avoid creating intermediate list
+            'avg_word_length_prompt': np.fromiter((len(w) for w in prompt_words), dtype=float).mean() if prompt_words else 0,
+            'avg_word_length_response': np.fromiter((len(w) for w in response_words), dtype=float).mean() if response_words else 0,
+            'special_char_ratio_prompt': prompt_special / prompt_len if prompt_len else 0,
+            'special_char_ratio_response': response_special / response_len if response_len else 0,
+            'uppercase_ratio_prompt': prompt_upper / prompt_len if prompt_len else 0,
             'question_count': prompt.count('?'),
             'exclamation_count': prompt.count('!')
         }
@@ -554,14 +570,29 @@ Common disagreement patterns:
 
 ```python
 from statsmodels.stats.outliers_influence import variance_inflation_factor
+from joblib import Parallel, delayed
 
-# Calculate VIF for all features
-vif_data = pd.DataFrame()
-vif_data['Feature'] = feature_names
-vif_data['VIF'] = [
-    variance_inflation_factor(X_scaled, i) 
-    for i in range(X_scaled.shape[1])
-]
+# Calculate VIF for all features (optimized with parallel processing)
+# Note: Parallel processing is beneficial for datasets with many features (>15-20).
+# For smaller feature sets, sequential processing may be faster due to overhead.
+def calculate_vif(X, feature_idx):
+    """Calculate VIF for a single feature."""
+    return variance_inflation_factor(X, feature_idx)
+
+n_features = X_scaled.shape[1]
+# Use parallel processing for large feature sets, sequential for small
+if n_features > 15:
+    vif_values = Parallel(n_jobs=-1)(
+        delayed(calculate_vif)(X_scaled, i) 
+        for i in range(n_features)
+    )
+else:
+    vif_values = [calculate_vif(X_scaled, i) for i in range(n_features)]
+
+vif_data = pd.DataFrame({
+    'Feature': feature_names,
+    'VIF': vif_values
+})
 ```
 
 **High VIF Features Identified (VIF > 10):**
@@ -1063,8 +1094,14 @@ async def evaluate_safety(request: EvaluationRequest):
 
 @app.post("/batch_evaluate")
 async def batch_evaluate(requests: List[EvaluationRequest]):
-    """Batch evaluation endpoint for high-throughput processing."""
-    return [await evaluate_safety(req) for req in requests]
+    """Batch evaluation endpoint for high-throughput processing.
+    
+    Uses asyncio.gather for concurrent processing of multiple requests,
+    significantly improving throughput for batch operations.
+    """
+    # Process all requests concurrently for better performance
+    results = await asyncio.gather(*[evaluate_safety(req) for req in requests])
+    return results
 ```
 
 ### 10.3 MLflow Model Registry

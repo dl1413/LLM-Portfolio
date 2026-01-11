@@ -288,10 +288,14 @@ $$\tilde{r}_i = \text{median}(r_{i,GPT4}, r_{i,Claude3}, r_{i,Llama3})$$
 $$s_i = \sqrt{\frac{1}{2}\sum_{k=1}^{3}(r_{i,k} - \bar{r}_i)^2}$$
 
 ```python
-# Ensemble aggregation
-df['ensemble_mean'] = df[['gpt4_rating', 'claude3_rating', 'llama3_rating']].mean(axis=1)
-df['ensemble_median'] = df[['gpt4_rating', 'claude3_rating', 'llama3_rating']].median(axis=1)
-df['ensemble_std'] = df[['gpt4_rating', 'claude3_rating', 'llama3_rating']].std(axis=1)
+# Ensemble aggregation (optimized: select columns once)
+rating_cols = ['gpt4_rating', 'claude3_rating', 'llama3_rating']
+ratings = df[rating_cols]
+
+# Vectorized operations on pre-selected DataFrame
+df['ensemble_mean'] = ratings.mean(axis=1)
+df['ensemble_median'] = ratings.median(axis=1)
+df['ensemble_std'] = ratings.std(axis=1)
 ```
 
 ---
