@@ -1,7 +1,12 @@
 /* Reset and base styles */
-* {
+/* Use more specific selectors instead of universal * for better performance */
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, ul, li,
+article, aside, footer, header, main, nav, section {
     margin: 0;
     padding: 0;
+}
+
+*, *::before, *::after {
     box-sizing: border-box;
 }
 
@@ -139,6 +144,10 @@ nav {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid var(--border-color);
+    /* Performance: hint browser about upcoming transform changes */
+    will-change: transform;
+    /* Performance: isolate paint and layout operations */
+    contain: layout style;
 }
 
 .project-card:hover {
@@ -296,7 +305,22 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Animations */
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    .project-card,
+    .cta-button,
+    .contact-link,
+    .nav-links a {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* Animations - only for users who haven't requested reduced motion */
 @keyframes fadeInUp {
     from {
         opacity: 0;
